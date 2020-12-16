@@ -1,0 +1,21 @@
+server.port: 8080
+spring: 
+  application:    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+            allowCredentials: true
+      routes: 
+        - id: demo-socket
+          uri: lb:ws://demo
+          predicates: 
+            - Path=/api/message/ws/any-socket/info/**
+        - id: demo
+          uri: lb://demo
+          predicates:
+            - Path=/api/message/**
